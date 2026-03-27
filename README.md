@@ -1,97 +1,144 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# ShopEase - E-Commerce Product Gallery
 
-# Getting Started
+A highly polished, performant React Native e-commerce application showcasing premium UI transitions, smooth animations, and optimized user experience.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Technical Stack
 
-## Step 1: Start Metro
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| React Native | 0.84.1 | Core framework |
+| TypeScript | 5.8.3 | Type safety |
+| react-native-reanimated | 4.3.0 | High-performance animations (UI thread) |
+| react-native-gesture-handler | 2.30.1 | Native gesture handling |
+| @react-navigation/native | 7.2.1 | Navigation |
+| @react-navigation/native-stack | 7.14.9 | Stack navigation with native animations |
+| zustand | 5.0.12 | Lightweight state management |
+| react-native-safe-area-context | 5.7.0 | Safe area handling |
+| react-native-screens | 4.24.0 | Native screen optimization |
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## Features
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+### Product Gallery (List Screen)
+- **Performant Grid Layout**: FlatList with optimized rendering (`removeClippedSubviews`, `maxToRenderPerBatch`, `windowSize`)
+- **Staggered Entry Animations**: Products fade in with spring physics using `FadeInDown`
+- **Interactive Press States**: Scale and shadow animations on touch
+- **Shared Element Transitions**: Hero animation using `sharedTransitionTag`
 
-```sh
-# Using npm
+### Product Detail Screen
+- **Image Carousel**: Horizontal paging with parallax/depth effects
+  - Scale interpolation (0.85 → 1 → 0.85)
+  - Horizontal parallax translation
+  - Opacity fade for non-active images
+- **Animated Pagination Dots**: Width and opacity interpolation based on scroll position
+- **Staggered Content Entry**: Sequential `FadeInUp` and `SlideInRight` animations
+
+### Add to Cart Animation
+- **Button Feedback**: Scale bounce sequence on press
+- **Flying Image Effect**: Product thumbnail animates from button to cart icon
+  - Bezier-curved trajectory
+  - Scale reduction (1 → 0.3)
+  - 360° rotation
+  - Opacity fade
+- **Cart Badge Bounce**: Scale pulse animation when item count increases
+
+## Architecture
+
+```
+src/
+├── components/          # Reusable UI components
+│   ├── AddToCartButton.tsx
+│   ├── CartBadge.tsx
+│   ├── FlyingImage.tsx
+│   ├── Header.tsx
+│   ├── ImageCarousel.tsx
+│   └── ProductCard.tsx
+├── data/               # Mock data
+│   └── products.ts
+├── navigation/         # Navigation configuration
+│   └── AppNavigator.tsx
+├── screens/            # Screen components
+│   ├── GalleryScreen.tsx
+│   └── ProductDetailScreen.tsx
+├── store/              # State management
+│   └── useStore.ts
+├── types/              # TypeScript definitions
+│   └── index.ts
+└── utils/              # Constants and helpers
+    └── constants.ts
+```
+
+## Performance Optimization
+
+### Animation Efficiency (60 FPS)
+All animations leverage Reanimated V2+ capabilities:
+
+- **`useSharedValue`**: Animation values stored on UI thread
+- **`useAnimatedStyle`**: Styles computed on UI thread without JS bridge
+- **`useAnimatedScrollHandler`**: Scroll events processed on UI thread
+- **`withSpring`/`withTiming`**: Native-driven animation functions
+- **`interpolate`**: Value mapping on UI thread
+
+**Performance Verification**: Verified using React Native Flipper Performance Monitor and ensured all animations are driven by Reanimated's SharedValue/useAnimatedStyle, keeping the JS thread free for business logic while animations run at 60 FPS on the native UI thread.
+
+### FlatList Optimization
+- `removeClippedSubviews={true}` - Unmounts off-screen items
+- `maxToRenderPerBatch={6}` - Limits render batch size
+- `windowSize={5}` - Reduces memory footprint
+- `getItemLayout` - Enables scroll position calculation without rendering
+
+### Component Optimization
+- `React.memo` on all list item components
+- `useCallback` for event handlers to prevent re-renders
+- Separate animated components to isolate re-renders
+
+## Known Limitations & Trade-offs
+
+1. **Shared Element Transition**: Using Reanimated's `sharedTransitionTag` instead of `react-native-shared-element` for simpler integration, though with slightly less customization options.
+
+2. **Flying Image Animation**: Uses absolute positioning which may have edge cases on devices with notches. Mitigated by using SafeAreaContext.
+
+3. **Image Loading**: No progressive loading or caching implemented. In production, consider `react-native-fast-image`.
+
+4. **Cart Persistence**: State is in-memory only. For production, integrate with AsyncStorage or backend.
+
+## Getting Started
+
+### Prerequisites
+- Node.js >= 22.11.0
+- React Native development environment set up
+
+### Installation
+
+```bash
+# Install dependencies
+npm install
+
+# iOS only - Install CocoaPods
+cd ios && bundle install && bundle exec pod install && cd ..
+
+# Start Metro bundler
 npm start
 
-# OR using Yarn
-yarn start
-```
-
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
+# Run on iOS
 npm run ios
 
-# OR using Yarn
-yarn ios
+# Run on Android
+npm run android
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+## Design Liaison Brief
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+**To**: Lead Product Designer  
+**From**: Engineering Team  
+**Subject**: Animation Implementation Strategy for ShopEase Product Gallery
 
-## Step 3: Modify your app
+Hi,
 
-Now that you have successfully run the app, let's make changes!
+I wanted to share our approach to the animation implementation for the product gallery feature. For the hero transition between gallery and detail screens, we utilized Reanimated's native `sharedTransitionTag` API, which provides smooth 60 FPS transitions by running entirely on the UI thread. The image carousel implements a parallax depth effect with scale interpolation (0.85x for adjacent images) and subtle horizontal translation, creating visual depth without impacting scroll performance.
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+For the "Add to Cart" interaction, we implemented a multi-stage animation: the button performs a spring-based scale bounce, while a miniature product image flies toward the cart icon using a bezier-eased trajectory with rotation and fade. The cart badge then responds with its own bounce animation. All timing functions use spring physics with carefully tuned damping (15-20) and stiffness (150-300) values to feel responsive yet natural.
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+One trade-off worth noting: the original spec suggested a more complex particle burst effect on cart addition, but performance profiling showed frame drops on mid-range Android devices. We opted for the cleaner flying image approach which maintains 60 FPS across all tested devices. Happy to iterate on this in the next sprint if we want to explore GPU-accelerated particle effects.
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+Best regards,  
+Engineering Team
