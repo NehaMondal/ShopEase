@@ -1,5 +1,6 @@
-import React, {useCallback} from 'react';
-import {StyleSheet, View, Dimensions} from 'react-native';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import { StyleSheet, View, Dimensions, FlatList } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import Animated, {
   useAnimatedScrollHandler,
   useSharedValue,
@@ -7,7 +8,8 @@ import Animated, {
   interpolate,
   Extrapolation,
 } from 'react-native-reanimated';
-import type {SharedValue} from 'react-native-reanimated';
+import type { SharedValue } from 'react-native-reanimated';
+import { useHeroStore } from '../store/heroStore';
 import {
   COLORS,
   SPACING,
@@ -15,7 +17,8 @@ import {
   BORDER_RADIUS,
 } from '../utils/constants';
 
-const {width: SCREEN_WIDTH} = Dimensions.get('window');
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const HERO_ANIMATION_DELAY = 490;
 
 interface ImageCarouselProps {
   images: string[];
@@ -28,10 +31,23 @@ interface CarouselImageProps {
   scrollX: SharedValue<number>;
   productId: string;
   isFirst: boolean;
+  shouldDelay: boolean;
 }
 
 const CarouselImage: React.FC<CarouselImageProps> = React.memo(
-  ({uri, index, scrollX, productId, isFirst}) => {
+  ({ uri, index, scrollX, productId, isFirst, shouldDelay }) => {
+    const [isVisible, setIsVisible] = useState(!isFirst || !shouldDelay);
+
+    useEffect(() => {
+      if (isFirst && shouldDelay) {
+        const timer = setTimeout(() => {
+          setIsVisible(true);
+        }, HERO_ANIMATION_DELAY);
+        return () => clearTimeout(timer);
+      } else if (isFirst && !shouldDelay) {
+        setIsVisible(true);
+      }
+    }, [isFirst, shouldDelay]);
     const animatedStyle = useAnimatedStyle(() => {
       const inputRange = [
         (index - 1) * SCREEN_WIDTH,
@@ -61,19 +77,24 @@ const CarouselImage: React.FC<CarouselImageProps> = React.memo(
       );
 
       return {
-        transform: [{scale}, {translateX}],
+        transform: [{ scale }, { translateX }],
         opacity,
       };
     });
 
+    if (!isVisible) {
+      return <View style={styles.imageWrapper} />;
+    }
+
     return (
       <View style={styles.imageWrapper}>
-        <Animated.Image
-          source={{uri}}
-          style={[styles.image, animatedStyle]}
-          resizeMode="cover"
-          sharedTransitionTag={isFirst ? `product-image-${productId}` : undefined}
-        />
+        <Animated.View style={animatedStyle}>
+          <FastImage
+            source={{ uri }}
+            style={styles.image}
+            resizeMode={FastImage.resizeMode.cover}
+          />
+        </Animated.View>
       </View>
     );
   },
@@ -85,7 +106,7 @@ interface PaginationDotProps {
 }
 
 const PaginationDot: React.FC<PaginationDotProps> = React.memo(
-  ({index, scrollX}) => {
+  ({ index, scrollX }) => {
     const animatedStyle = useAnimatedStyle(() => {
       const inputRange = [
         (index - 1) * SCREEN_WIDTH,
@@ -96,7 +117,11 @@ const PaginationDot: React.FC<PaginationDotProps> = React.memo(
       const width = interpolate(
         scrollX.value,
         inputRange,
-        [CAROUSEL_CONFIG.dotSize, CAROUSEL_CONFIG.activeDotSize, CAROUSEL_CONFIG.dotSize],
+        [
+          CAROUSEL_CONFIG.dotSize,
+          CAROUSEL_CONFIG.activeDotSize,
+          CAROUSEL_CONFIG.dotSize,
+        ],
         Extrapolation.CLAMP,
       );
 
@@ -118,8 +143,9 @@ const PaginationDot: React.FC<PaginationDotProps> = React.memo(
 );
 
 export const ImageCarousel: React.FC<ImageCarouselProps> = React.memo(
-  ({images, productId}) => {
+  ({ images, productId }) => {
     const scrollX = useSharedValue(0);
+    const isAnimating = useHeroStore(state => state.isAnimating);
 
     const scrollHandler = useAnimatedScrollHandler({
       onScroll: event => {
@@ -136,9 +162,10 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = React.memo(
           scrollX={scrollX}
           productId={productId}
           isFirst={index === 0}
+          shouldDelay={isAnimating}
         />
       ),
-      [productId, scrollX],
+      [productId, scrollX, isAnimating],
     );
 
     return (
@@ -150,7 +177,8 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = React.memo(
           onScroll={scrollHandler}
           scrollEventThrottle={16}
           decelerationRate="fast"
-          bounces={false}>
+          bounces={false}
+        >
           {images.map(renderImage)}
         </Animated.ScrollView>
         <View style={styles.pagination}>

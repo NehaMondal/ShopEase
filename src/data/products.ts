@@ -1,10 +1,10 @@
-import {Product} from '../types';
+import { Product } from '../types';
 
-export const products: Product[] = [
+const productsArray: Product[] = [
   {
     id: '1',
     name: 'Premium Leather Jacket',
-    price: 299.99,
+    price: 24999,
     category: 'Clothing',
     description:
       'Crafted from genuine Italian leather, this premium jacket features a timeless design with modern details. Perfect for any occasion, from casual outings to evening events.',
@@ -16,11 +16,17 @@ export const products: Product[] = [
     ],
     rating: 4.8,
     reviews: 256,
+    features: [
+      { icon: '✓', text: 'Genuine Italian Leather' },
+      { icon: '✓', text: 'Water-Resistant Finish' },
+      { icon: '✓', text: 'Multiple Interior Pockets' },
+      { icon: '✓', text: '2 Year Warranty' },
+    ],
   },
   {
     id: '2',
-    name: 'Wireless Noise-Canceling Headphones',
-    price: 349.99,
+    name: 'Noise-Canceling Headphones',
+    price: 28999,
     category: 'Electronics',
     description:
       'Experience pure audio bliss with industry-leading noise cancellation. 30-hour battery life, premium comfort, and crystal-clear sound quality.',
@@ -32,11 +38,17 @@ export const products: Product[] = [
     ],
     rating: 4.9,
     reviews: 1024,
+    features: [
+      { icon: '✓', text: 'Active Noise Cancellation' },
+      { icon: '✓', text: '30-Hour Battery Life' },
+      { icon: '✓', text: 'Hi-Res Audio Certified' },
+      { icon: '✓', text: 'Foldable Design' },
+    ],
   },
   {
     id: '3',
     name: 'Minimalist Watch',
-    price: 189.99,
+    price: 15799,
     category: 'Accessories',
     description:
       'A stunning timepiece that combines Swiss precision with Scandinavian design. Sapphire crystal glass and genuine leather strap.',
@@ -48,11 +60,17 @@ export const products: Product[] = [
     ],
     rating: 4.7,
     reviews: 512,
+    features: [
+      { icon: '✓', text: 'Swiss Movement' },
+      { icon: '✓', text: 'Sapphire Crystal Glass' },
+      { icon: '✓', text: 'Water Resistant 50m' },
+      { icon: '✓', text: 'Genuine Leather Strap' },
+    ],
   },
   {
     id: '4',
     name: 'Designer Sunglasses',
-    price: 159.99,
+    price: 13299,
     category: 'Accessories',
     description:
       'UV400 protection meets Italian craftsmanship. Lightweight titanium frame with polarized lenses for ultimate clarity.',
@@ -64,27 +82,39 @@ export const products: Product[] = [
     ],
     rating: 4.6,
     reviews: 328,
+    features: [
+      { icon: '✓', text: 'UV400 Protection' },
+      { icon: '✓', text: 'Polarized Lenses' },
+      { icon: '✓', text: 'Titanium Frame' },
+      { icon: '✓', text: 'Includes Hard Case' },
+    ],
   },
   {
     id: '5',
     name: 'Running Sneakers Pro',
-    price: 179.99,
+    price: 14999,
     category: 'Footwear',
     description:
       'Engineered for performance with responsive cushioning and breathable mesh upper. Perfect for marathons or daily runs.',
     images: [
+      'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800',
       'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800',
       'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=800',
-      'https://images.unsplash.com/photo-1491553895911-0055uj8d0?w=800',
       'https://images.unsplash.com/photo-1539185441755-769473a23570?w=800',
     ],
     rating: 4.8,
     reviews: 892,
+    features: [
+      { icon: '✓', text: 'Responsive Cushioning' },
+      { icon: '✓', text: 'Breathable Mesh Upper' },
+      { icon: '✓', text: 'Lightweight Design' },
+      { icon: '✓', text: 'Anti-Slip Sole' },
+    ],
   },
   {
     id: '6',
     name: 'Smart Fitness Tracker',
-    price: 129.99,
+    price: 10799,
     category: 'Electronics',
     description:
       'Track your health 24/7 with heart rate monitoring, sleep analysis, and GPS. Water-resistant up to 50 meters.',
@@ -96,11 +126,17 @@ export const products: Product[] = [
     ],
     rating: 4.5,
     reviews: 1567,
+    features: [
+      { icon: '✓', text: '24/7 Heart Rate Monitor' },
+      { icon: '✓', text: 'Built-in GPS' },
+      { icon: '✓', text: 'Sleep Tracking' },
+      { icon: '✓', text: '7-Day Battery Life' },
+    ],
   },
   {
     id: '7',
     name: 'Canvas Backpack',
-    price: 89.99,
+    price: 7499,
     category: 'Bags',
     description:
       'Vintage-inspired design meets modern functionality. Padded laptop compartment, water-resistant canvas, and genuine leather accents.',
@@ -112,27 +148,39 @@ export const products: Product[] = [
     ],
     rating: 4.7,
     reviews: 445,
+    features: [
+      { icon: '✓', text: 'Padded Laptop Compartment' },
+      { icon: '✓', text: 'Water-Resistant Canvas' },
+      { icon: '✓', text: 'Leather Accents' },
+      { icon: '✓', text: 'Multiple Pockets' },
+    ],
   },
   {
     id: '8',
     name: 'Ceramic Coffee Set',
-    price: 69.99,
+    price: 5799,
     category: 'Home',
     description:
       'Handcrafted ceramic pour-over set includes dripper, carafe, and two cups. Minimalist Japanese-inspired design.',
     images: [
       'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800',
       'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800',
-      'https://images.unsplash.com/photo-1497515114889-1f074f91c24c?w=800',
+      'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800',
       'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800',
     ],
     rating: 4.9,
     reviews: 234,
+    features: [
+      { icon: '✓', text: 'Handcrafted Ceramic' },
+      { icon: '✓', text: 'Complete Pour-Over Set' },
+      { icon: '✓', text: 'Dishwasher Safe' },
+      { icon: '✓', text: 'Gift Box Included' },
+    ],
   },
   {
     id: '9',
     name: 'Wireless Charging Pad',
-    price: 49.99,
+    price: 4199,
     category: 'Electronics',
     description:
       'Fast wireless charging for all Qi-enabled devices. Sleek aluminum design with LED indicator and foreign object detection.',
@@ -144,11 +192,17 @@ export const products: Product[] = [
     ],
     rating: 4.4,
     reviews: 678,
+    features: [
+      { icon: '✓', text: '15W Fast Charging' },
+      { icon: '✓', text: 'Qi Certified' },
+      { icon: '✓', text: 'Foreign Object Detection' },
+      { icon: '✓', text: 'LED Status Indicator' },
+    ],
   },
   {
     id: '10',
     name: 'Cashmere Sweater',
-    price: 249.99,
+    price: 20799,
     category: 'Clothing',
     description:
       'Pure Mongolian cashmere in a classic crew neck design. Exceptionally soft, lightweight, and warm for all-day comfort.',
@@ -160,11 +214,17 @@ export const products: Product[] = [
     ],
     rating: 4.8,
     reviews: 189,
+    features: [
+      { icon: '✓', text: '100% Mongolian Cashmere' },
+      { icon: '✓', text: 'Lightweight & Warm' },
+      { icon: '✓', text: 'Machine Washable' },
+      { icon: '✓', text: 'Anti-Pilling Treatment' },
+    ],
   },
   {
     id: '11',
     name: 'Portable Bluetooth Speaker',
-    price: 79.99,
+    price: 6649,
     category: 'Electronics',
     description:
       '360° immersive sound with deep bass. IPX7 waterproof rating, 24-hour playtime, and built-in microphone for calls.',
@@ -176,11 +236,17 @@ export const products: Product[] = [
     ],
     rating: 4.6,
     reviews: 923,
+    features: [
+      { icon: '✓', text: '360° Immersive Sound' },
+      { icon: '✓', text: 'IPX7 Waterproof' },
+      { icon: '✓', text: '24-Hour Playtime' },
+      { icon: '✓', text: 'Built-in Microphone' },
+    ],
   },
   {
     id: '12',
     name: 'Yoga Mat Premium',
-    price: 59.99,
+    price: 4999,
     category: 'Fitness',
     description:
       'Eco-friendly natural rubber with superior grip. Extra thick 6mm cushioning for joint protection. Includes carrying strap.',
@@ -192,11 +258,17 @@ export const products: Product[] = [
     ],
     rating: 4.7,
     reviews: 567,
+    features: [
+      { icon: '✓', text: 'Eco-Friendly Natural Rubber' },
+      { icon: '✓', text: '6mm Extra Thick' },
+      { icon: '✓', text: 'Non-Slip Surface' },
+      { icon: '✓', text: 'Carrying Strap Included' },
+    ],
   },
   {
     id: '13',
     name: 'Mechanical Keyboard',
-    price: 149.99,
+    price: 12499,
     category: 'Electronics',
     description:
       'Cherry MX switches with per-key RGB lighting. Aircraft-grade aluminum frame with detachable USB-C cable.',
@@ -208,11 +280,17 @@ export const products: Product[] = [
     ],
     rating: 4.8,
     reviews: 445,
+    features: [
+      { icon: '✓', text: 'Cherry MX Switches' },
+      { icon: '✓', text: 'Per-Key RGB Lighting' },
+      { icon: '✓', text: 'Aluminum Frame' },
+      { icon: '✓', text: 'Detachable USB-C Cable' },
+    ],
   },
   {
     id: '14',
     name: 'Leather Wallet',
-    price: 79.99,
+    price: 6649,
     category: 'Accessories',
     description:
       'Full-grain leather bifold wallet with RFID blocking. Slim profile with 8 card slots and bill compartment.',
@@ -224,11 +302,17 @@ export const products: Product[] = [
     ],
     rating: 4.6,
     reviews: 334,
+    features: [
+      { icon: '✓', text: 'Full-Grain Leather' },
+      { icon: '✓', text: 'RFID Blocking' },
+      { icon: '✓', text: '8 Card Slots' },
+      { icon: '✓', text: 'Slim Profile Design' },
+    ],
   },
   {
     id: '15',
     name: 'Plant Pot Set',
-    price: 44.99,
+    price: 3749,
     category: 'Home',
     description:
       'Set of 3 geometric concrete planters with bamboo saucers. Perfect for succulents and small plants. Drainage holes included.',
@@ -240,5 +324,21 @@ export const products: Product[] = [
     ],
     rating: 4.5,
     reviews: 223,
+    features: [
+      { icon: '✓', text: 'Set of 3 Planters' },
+      { icon: '✓', text: 'Bamboo Saucers Included' },
+      { icon: '✓', text: 'Drainage Holes' },
+      { icon: '✓', text: 'Geometric Design' },
+    ],
   },
 ];
+
+const productsMap = new Map<string, Product>(
+  productsArray.map(product => [product.id, product]),
+);
+
+export const products = productsArray;
+
+export const getProductById = (id: string): Product | undefined => {
+  return productsMap.get(id);
+};

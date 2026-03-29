@@ -1,13 +1,25 @@
-import React from 'react';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {AppNavigator} from './src/navigation';
+import React, { useState } from 'react';
+import { StatusBar } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { AppNavigator } from './src/navigation';
+import { HeroImage, SplashScreen } from './src/components';
+import { COLORS } from './src/utils/constants';
 
 function App(): React.JSX.Element {
+  const [showSplash, setShowSplash] = useState(true);
+
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
+    <GestureHandlerRootView style={{ flex: 1, backgroundColor: COLORS.background }}>
       <SafeAreaProvider>
+        <StatusBar
+          translucent
+          backgroundColor="transparent"
+          barStyle="dark-content"
+        />
         <AppNavigator />
+        <HeroImage />
+        {showSplash && <SplashScreen onFinish={() => setShowSplash(false)} />}
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

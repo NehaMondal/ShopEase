@@ -1,3 +1,8 @@
+export interface ProductFeature {
+  icon: string;
+  text: string;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -7,6 +12,7 @@ export interface Product {
   images: string[];
   rating: number;
   reviews: number;
+  features: ProductFeature[];
 }
 
 export interface CartItem {
@@ -17,7 +23,6 @@ export interface CartItem {
 export type RootStackParamList = {
   Gallery: undefined;
   ProductDetail: {
-    product: Product;
-    sharedTransitionTag: string;
+    productId: string;
   };
 };
