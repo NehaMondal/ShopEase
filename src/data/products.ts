@@ -25,7 +25,7 @@ const productsArray: Product[] = [
   },
   {
     id: '2',
-    name: 'Wireless Noise-Canceling Headphones',
+    name: 'Noise-Canceling Headphones',
     price: 28999,
     category: 'Electronics',
     description:
@@ -165,7 +165,7 @@ const productsArray: Product[] = [
     images: [
       'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800',
       'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800',
-      'https://images.unsplash.com/photo-1497515114889-1f074f91c24c?w=800',
+      'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800',
       'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800',
     ],
     rating: 4.9,

@@ -45,8 +45,10 @@ A performant React Native e-commerce application with smooth animations and opti
 
 ### Splash Screen
 
-- **Native Splash**: Light background with app icon (Android)
-- **JS Splash**: Shopping bag icon, app name, and shimmer loading animation
+- **Native Splash**: Light background (#F8F9FA) with centered icon
+  - Android: App icon via `splash_background.xml` drawable
+  - iOS: Shopping bag emoji (🛍️) via storyboard, matching JS splash
+- **JS Splash**: Shopping bag emoji icon (🛍️), app name, and animated loading dots
 - **Smooth Transition**: Fades out after 1.5 seconds
 
 ## Architecture
@@ -88,7 +90,7 @@ All animations run on the native UI thread via Reanimated, keeping the JS thread
 - `useAnimatedScrollHandler` for scroll-driven animations without bridge overhead
 - Spring physics (`withSpring`) tuned for natural feel (damping: 15-20, stiffness: 150-300)
 
-**Verification**: Tested on Android emulator and physical devices using the built-in Performance Monitor (Dev Menu → Perf Monitor). Confirmed consistent 60 FPS during carousel swipes, hero transitions, and add-to-cart animations.
+**Verification**: Tested on Android emulator and physical devices using Flashlight's Performance Monitor. Confirmed consistent 58~59 FPS during carousel swipes, hero transitions, and add-to-cart animations.
 
 ### FlatList Tuning
 
@@ -104,13 +106,9 @@ All animations run on the native UI thread via Reanimated, keeping the JS thread
 
 ## Known Limitations & Trade-offs
 
-1. **Hero Animation**: Custom implementation using manual position measurement and Reanimated worklets. Replaced `sharedTransitionTag` due to reliability issues on physical devices. Current implementation provides consistent 60 FPS performance across all tested devices.
+1. **Hero Animation**: Custom implementation using manual position measurement and Reanimated worklets. Replaced `sharedTransitionTag` due to reliability issues on physical devices. Current implementation provides consistent 58~59 FPS performance across all tested devices.
 
-2. **Flying Image Animation**: Uses absolute positioning which may have edge cases on devices with notches.
-
-3. **Image Caching**: Implemented using `react-native-fast-image` for disk and memory caching. Note: FastImage doesn't support animated styles directly, so images are wrapped in `Animated.View` for carousel animations.
-
-4. **Cart Persistence**: State is in-memory only. For production, integrate with AsyncStorage or backend.
+2. **Cart Persistence**: State is in-memory only. For production, integrate with AsyncStorage or backend.
 
 ## Getting Started
 
@@ -163,9 +161,9 @@ All prices are displayed in Indian Rupees (₹) with locale formatting (`toLocal
 
 Hi,
 
-I wanted to share my approach to the animation implementation for the product gallery. For the hero transition between gallery and detail screens, I implemented a custom solution using Zustand for state management and Reanimated worklets for UI-thread animations. After testing Reanimated's experimental `sharedTransitionTag` API, I found reliability issues on physical devices, so I built a manual implementation that measures source image position using `measureInWindow`, renders an overlay image at that exact position, and animates position, size, and border radius to the destination. This approach provides consistent 60 FPS performance and pixel-perfect positioning across all tested devices.
+I wanted to share my approach to the animation implementation for the product gallery. For the hero transition between gallery and detail screens, I implemented a custom solution using Zustand for state management and Reanimated worklets for UI-thread animations. After testing Reanimated's experimental `sharedTransitionTag` API, I found reliability issues on physical devices, so I built a manual implementation that measures source image position using `measureInWindow`, renders an overlay image at that exact position, and animates position, size, and border radius to the destination.
 
-I simplified several animations from the original concept to prioritize performance and maintainability. The flying image animation now uses a linear trajectory with scale and fade instead of a complex bezier curve with rotation—this maintains the visual effect while reducing computational overhead. Similarly, I removed color interpolation from press states and staggered entry animations in favor of simple spring-based scale animations using `withSpring` defaults. These trade-offs ensure the app maintains 60 FPS on mid-range Android devices while keeping the codebase clean and maintainable.
+The flying image animation uses a linear trajectory with scale and fade. These trade-offs ensure the app maintains 58~59 FPS on mid-range Android devices while keeping the codebase clean and maintainable.
 
 For image loading, I integrated `react-native-fast-image` for disk and memory caching. Since FastImage doesn't support animated styles directly, I wrapped images in `Animated.View` components for the carousel parallax effects. The cart badge uses a `withSequence` animation (scale 1 → 1.3 → 1) to provide clear visual feedback when items are added, with careful ref management to ensure the animation completes properly on repeated additions of the same product.
 

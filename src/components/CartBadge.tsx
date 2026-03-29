@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -18,8 +18,14 @@ import {
 export const CartBadge: React.FC = () => {
   const cartItemCount = useStore(state => state.getCartItemCount());
   const scale = useSharedValue(1);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
     scale.value = withSequence(
       withSpring(1.4, ANIMATION_CONFIG.springBouncy),
       withSpring(1, ANIMATION_CONFIG.spring),
