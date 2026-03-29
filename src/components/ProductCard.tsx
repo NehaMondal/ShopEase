@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useRef } from 'react';
-import { StyleSheet, Text, View, Pressable, Image } from 'react-native';
+import { StyleSheet, Text, View, Pressable } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -65,10 +66,10 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(
         style={[styles.container, animatedStyle]}
       >
         <View ref={imageRef} style={styles.imageContainer} collapsable={false}>
-          <Image
+          <FastImage
             source={{ uri: product?.images[0] }}
             style={styles.image}
-            resizeMode="cover"
+            resizeMode={FastImage.resizeMode.cover}
           />
           <View style={styles.categoryBadge}>
             <Text style={styles.categoryText}>{product.category}</Text>

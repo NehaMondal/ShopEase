@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import { StyleSheet, View, Dimensions, FlatList } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import Animated, {
   useAnimatedScrollHandler,
   useSharedValue,
   useAnimatedStyle,
   interpolate,
   Extrapolation,
-  FadeIn,
 } from 'react-native-reanimated';
 import type { SharedValue } from 'react-native-reanimated';
 import { useHeroStore } from '../store/heroStore';
@@ -88,12 +88,13 @@ const CarouselImage: React.FC<CarouselImageProps> = React.memo(
 
     return (
       <View style={styles.imageWrapper}>
-        <Animated.Image
-          source={{ uri }}
-          style={[styles.image, animatedStyle]}
-          resizeMode="cover"
-          entering={isFirst && shouldDelay ? FadeIn.duration(200) : undefined}
-        />
+        <Animated.View style={animatedStyle}>
+          <FastImage
+            source={{ uri }}
+            style={styles.image}
+            resizeMode={FastImage.resizeMode.cover}
+          />
+        </Animated.View>
       </View>
     );
   },
@@ -215,7 +216,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    bottom: SPACING.xl,
+    bottom: SPACING.lg,
     left: 0,
     right: 0,
     gap: SPACING.sm,

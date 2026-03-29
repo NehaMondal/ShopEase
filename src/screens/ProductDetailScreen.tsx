@@ -128,7 +128,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.lg,
     paddingBottom: SPACING.lg,
     backgroundColor: COLORS.surface,
-    marginTop: -SPACING.lg,
   },
   categoryRow: {
     flexDirection: 'row',

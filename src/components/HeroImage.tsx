@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Dimensions, Image } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -91,10 +92,10 @@ export const HeroImage: React.FC = () => {
 
   return (
     <Animated.View style={[styles.container, animatedStyle]}>
-      <Image
+      <FastImage
         source={{ uri: imageUri }}
         style={styles.image}
-        resizeMode="cover"
+        resizeMode={FastImage.resizeMode.cover}
       />
     </Animated.View>
   );

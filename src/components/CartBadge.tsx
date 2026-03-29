@@ -1,26 +1,45 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, Text } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withSequence,
+} from 'react-native-reanimated';
 import { useStore } from '../store/useStore';
 import {
   COLORS,
   SPACING,
   FONT_SIZE,
   BORDER_RADIUS,
+  ANIMATION_CONFIG,
 } from '../utils/constants';
 
 export const CartBadge: React.FC = () => {
   const cartItemCount = useStore(state => state.getCartItemCount());
+  const scale = useSharedValue(1);
+
+  useEffect(() => {
+    scale.value = withSequence(
+      withSpring(1.4, ANIMATION_CONFIG.springBouncy),
+      withSpring(1, ANIMATION_CONFIG.spring),
+    );
+  }, [cartItemCount, scale]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
 
   if (cartItemCount === 0) {
     return null;
   }
 
   return (
-    <View style={styles.badge}>
+    <Animated.View style={[styles.badge, animatedStyle]}>
       <Text style={styles.badgeText}>
         {cartItemCount > 99 ? '99+' : cartItemCount}
       </Text>
-    </View>
+    </Animated.View>
   );
 };
 

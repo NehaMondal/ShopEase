@@ -97,9 +97,9 @@ const productsArray: Product[] = [
     description:
       'Engineered for performance with responsive cushioning and breathable mesh upper. Perfect for marathons or daily runs.',
     images: [
+      'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800',
       'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800',
       'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=800',
-      'https://images.unsplash.com/photo-1491553895911-0055uj8d0?w=800',
       'https://images.unsplash.com/photo-1539185441755-769473a23570?w=800',
     ],
     rating: 4.8,
