@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   withDelay,
+  withRepeat,
   Easing,
 } from 'react-native-reanimated';
 import { COLORS, FONT_SIZE } from '../utils/constants';
@@ -15,6 +16,18 @@ interface SplashScreenProps {
 
 export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
   const opacity = useSharedValue(1);
+  const scale = useSharedValue(1);
+
+  useEffect(() => {
+    scale.value = withRepeat(
+      withTiming(1.2, {
+        duration: 800,
+        easing: Easing.inOut(Easing.ease),
+      }),
+      -1,
+      true,
+    );
+  }, []);
 
   useEffect(() => {
     opacity.value = withDelay(
@@ -36,6 +49,10 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
     opacity: opacity.value,
   }));
 
+  const loadingStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+
   return (
     <Animated.View style={[styles.container, animatedStyle]}>
       <View style={styles.content}>
@@ -43,7 +60,11 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
           <Text style={styles.iconText}>🛍️</Text>
         </View>
         <Text style={styles.appName}>ShopEase</Text>
-        <ActivityIndicator size="large" color={COLORS.primary} />
+        <Animated.View style={[styles.loadingContainer, loadingStyle]}>
+          <View style={styles.loadingDot} />
+          <View style={[styles.loadingDot, styles.loadingDot2]} />
+          <View style={[styles.loadingDot, styles.loadingDot3]} />
+        </Animated.View>
       </View>
     </Animated.View>
   );
@@ -86,5 +107,23 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
     marginTop: 24,
     marginBottom: 8,
+  },
+  loadingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 16,
+  },
+  loadingDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: COLORS.primary,
+    marginHorizontal: 4,
+  },
+  loadingDot2: {
+    opacity: 0.7,
+  },
+  loadingDot3: {
+    opacity: 0.4,
   },
 });
