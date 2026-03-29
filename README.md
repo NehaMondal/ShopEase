@@ -2,6 +2,10 @@
 
 A performant React Native e-commerce application with smooth animations and optimized user experience. Prices displayed in Indian Rupees (₹).
 
+## Demo
+
+https://github.com/user-attachments/assets/08cad7e5-a5fb-4885-b329-0af64233cbb3
+
 ## Technical Stack
 
 | Technology                     | Version | Purpose                                 |
