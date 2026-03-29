@@ -94,7 +94,7 @@ All animations run on the native UI thread via Reanimated, keeping the JS thread
 - `useAnimatedScrollHandler` for scroll-driven animations without bridge overhead
 - Spring physics (`withSpring`) tuned for natural feel (damping: 15-20, stiffness: 150-300)
 
-**Verification**: Tested on Android emulator and physical devices using Flashlight's Performance Monitor. Confirmed consistent 58~59 FPS during carousel swipes, hero transitions, and add-to-cart animations.
+**Verification**: Tested on Android device using Flashlight's Performance Monitor. Confirmed consistent 58~59 FPS during carousel swipes, hero transitions, and add-to-cart animations.
 
 ### FlatList Tuning
 
