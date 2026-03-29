@@ -168,3 +168,4 @@ The flying image animation uses a linear trajectory with scale and fade. These t
 For image loading, I integrated `react-native-fast-image` for disk and memory caching. Since FastImage doesn't support animated styles directly, I wrapped images in `Animated.View` components for the carousel parallax effects. The cart badge uses a `withSequence` animation (scale 1 → 1.3 → 1) to provide clear visual feedback when items are added, with careful ref management to ensure the animation completes properly on repeated additions of the same product.
 
 Best regards
+Neha Mondal
