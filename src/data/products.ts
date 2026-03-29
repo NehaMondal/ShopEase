@@ -1,6 +1,6 @@
-import {Product} from '../types';
+import { Product } from '../types';
 
-export const products: Product[] = [
+const productsArray: Product[] = [
   {
     id: '1',
     name: 'Premium Leather Jacket',
@@ -16,6 +16,12 @@ export const products: Product[] = [
     ],
     rating: 4.8,
     reviews: 256,
+    features: [
+      { icon: '✓', text: 'Genuine Italian Leather' },
+      { icon: '✓', text: 'Water-Resistant Finish' },
+      { icon: '✓', text: 'Multiple Interior Pockets' },
+      { icon: '✓', text: '2 Year Warranty' },
+    ],
   },
   {
     id: '2',
@@ -32,6 +38,12 @@ export const products: Product[] = [
     ],
     rating: 4.9,
     reviews: 1024,
+    features: [
+      { icon: '✓', text: 'Active Noise Cancellation' },
+      { icon: '✓', text: '30-Hour Battery Life' },
+      { icon: '✓', text: 'Hi-Res Audio Certified' },
+      { icon: '✓', text: 'Foldable Design' },
+    ],
   },
   {
     id: '3',
@@ -48,6 +60,12 @@ export const products: Product[] = [
     ],
     rating: 4.7,
     reviews: 512,
+    features: [
+      { icon: '✓', text: 'Swiss Movement' },
+      { icon: '✓', text: 'Sapphire Crystal Glass' },
+      { icon: '✓', text: 'Water Resistant 50m' },
+      { icon: '✓', text: 'Genuine Leather Strap' },
+    ],
   },
   {
     id: '4',
@@ -64,6 +82,12 @@ export const products: Product[] = [
     ],
     rating: 4.6,
     reviews: 328,
+    features: [
+      { icon: '✓', text: 'UV400 Protection' },
+      { icon: '✓', text: 'Polarized Lenses' },
+      { icon: '✓', text: 'Titanium Frame' },
+      { icon: '✓', text: 'Includes Hard Case' },
+    ],
   },
   {
     id: '5',
@@ -80,6 +104,12 @@ export const products: Product[] = [
     ],
     rating: 4.8,
     reviews: 892,
+    features: [
+      { icon: '✓', text: 'Responsive Cushioning' },
+      { icon: '✓', text: 'Breathable Mesh Upper' },
+      { icon: '✓', text: 'Lightweight Design' },
+      { icon: '✓', text: 'Anti-Slip Sole' },
+    ],
   },
   {
     id: '6',
@@ -96,6 +126,12 @@ export const products: Product[] = [
     ],
     rating: 4.5,
     reviews: 1567,
+    features: [
+      { icon: '✓', text: '24/7 Heart Rate Monitor' },
+      { icon: '✓', text: 'Built-in GPS' },
+      { icon: '✓', text: 'Sleep Tracking' },
+      { icon: '✓', text: '7-Day Battery Life' },
+    ],
   },
   {
     id: '7',
@@ -112,6 +148,12 @@ export const products: Product[] = [
     ],
     rating: 4.7,
     reviews: 445,
+    features: [
+      { icon: '✓', text: 'Padded Laptop Compartment' },
+      { icon: '✓', text: 'Water-Resistant Canvas' },
+      { icon: '✓', text: 'Leather Accents' },
+      { icon: '✓', text: 'Multiple Pockets' },
+    ],
   },
   {
     id: '8',
@@ -128,6 +170,12 @@ export const products: Product[] = [
     ],
     rating: 4.9,
     reviews: 234,
+    features: [
+      { icon: '✓', text: 'Handcrafted Ceramic' },
+      { icon: '✓', text: 'Complete Pour-Over Set' },
+      { icon: '✓', text: 'Dishwasher Safe' },
+      { icon: '✓', text: 'Gift Box Included' },
+    ],
   },
   {
     id: '9',
@@ -144,6 +192,12 @@ export const products: Product[] = [
     ],
     rating: 4.4,
     reviews: 678,
+    features: [
+      { icon: '✓', text: '15W Fast Charging' },
+      { icon: '✓', text: 'Qi Certified' },
+      { icon: '✓', text: 'Foreign Object Detection' },
+      { icon: '✓', text: 'LED Status Indicator' },
+    ],
   },
   {
     id: '10',
@@ -160,6 +214,12 @@ export const products: Product[] = [
     ],
     rating: 4.8,
     reviews: 189,
+    features: [
+      { icon: '✓', text: '100% Mongolian Cashmere' },
+      { icon: '✓', text: 'Lightweight & Warm' },
+      { icon: '✓', text: 'Machine Washable' },
+      { icon: '✓', text: 'Anti-Pilling Treatment' },
+    ],
   },
   {
     id: '11',
@@ -176,6 +236,12 @@ export const products: Product[] = [
     ],
     rating: 4.6,
     reviews: 923,
+    features: [
+      { icon: '✓', text: '360° Immersive Sound' },
+      { icon: '✓', text: 'IPX7 Waterproof' },
+      { icon: '✓', text: '24-Hour Playtime' },
+      { icon: '✓', text: 'Built-in Microphone' },
+    ],
   },
   {
     id: '12',
@@ -192,6 +258,12 @@ export const products: Product[] = [
     ],
     rating: 4.7,
     reviews: 567,
+    features: [
+      { icon: '✓', text: 'Eco-Friendly Natural Rubber' },
+      { icon: '✓', text: '6mm Extra Thick' },
+      { icon: '✓', text: 'Non-Slip Surface' },
+      { icon: '✓', text: 'Carrying Strap Included' },
+    ],
   },
   {
     id: '13',
@@ -208,6 +280,12 @@ export const products: Product[] = [
     ],
     rating: 4.8,
     reviews: 445,
+    features: [
+      { icon: '✓', text: 'Cherry MX Switches' },
+      { icon: '✓', text: 'Per-Key RGB Lighting' },
+      { icon: '✓', text: 'Aluminum Frame' },
+      { icon: '✓', text: 'Detachable USB-C Cable' },
+    ],
   },
   {
     id: '14',
@@ -224,6 +302,12 @@ export const products: Product[] = [
     ],
     rating: 4.6,
     reviews: 334,
+    features: [
+      { icon: '✓', text: 'Full-Grain Leather' },
+      { icon: '✓', text: 'RFID Blocking' },
+      { icon: '✓', text: '8 Card Slots' },
+      { icon: '✓', text: 'Slim Profile Design' },
+    ],
   },
   {
     id: '15',
@@ -240,5 +324,24 @@ export const products: Product[] = [
     ],
     rating: 4.5,
     reviews: 223,
+    features: [
+      { icon: '✓', text: 'Set of 3 Planters' },
+      { icon: '✓', text: 'Bamboo Saucers Included' },
+      { icon: '✓', text: 'Drainage Holes' },
+      { icon: '✓', text: 'Geometric Design' },
+    ],
   },
 ];
+
+// Create a Map for O(1) lookup performance
+const productsMap = new Map<string, Product>(
+  productsArray.map(product => [product.id, product]),
+);
+
+// Export the array for iteration (e.g., in FlatList)
+export const products = productsArray;
+
+// Optimized O(1) lookup by ID
+export const getProductById = (id: string): Product | undefined => {
+  return productsMap.get(id);
+};

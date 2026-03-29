@@ -1,25 +1,48 @@
-import React, {useCallback} from 'react';
-import {StyleSheet, Text, View, ScrollView, StatusBar} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {RouteProp, useRoute} from '@react-navigation/native';
+import React, { useCallback, useMemo } from 'react';
+import { StyleSheet, Text, View, ScrollView, StatusBar } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { RouteProp, useRoute } from '@react-navigation/native';
 import Animated, {
   FadeInUp,
   FadeInDown,
   SlideInRight,
 } from 'react-native-reanimated';
-import {ImageCarousel, Header, AddToCartButton, FlyingImage} from '../components';
-import {RootStackParamList} from '../types';
-import {COLORS, SPACING, FONT_SIZE, BORDER_RADIUS} from '../utils/constants';
+import {
+  ImageCarousel,
+  Header,
+  AddToCartButton,
+  FlyingImage,
+} from '../components';
+import { getProductById } from '../data/products';
+import { RootStackParamList, ProductFeature } from '../types';
+import { COLORS, SPACING, FONT_SIZE, BORDER_RADIUS } from '../utils/constants';
 
 type ProductDetailRouteProp = RouteProp<RootStackParamList, 'ProductDetail'>;
 
+interface FeatureItemProps {
+  feature: ProductFeature;
+}
+
+const FeatureItem: React.FC<FeatureItemProps> = ({ feature }) => (
+  <View style={styles.featureItem}>
+    <Text style={styles.featureIcon}>{feature.icon}</Text>
+    <Text style={styles.featureText}>{feature.text}</Text>
+  </View>
+);
+
 export const ProductDetailScreen: React.FC = () => {
   const route = useRoute<ProductDetailRouteProp>();
-  const {product} = route.params;
+  const { productId } = route.params;
 
-  const handleAddToCart = useCallback((position: {x: number; y: number}) => {
+  const product = useMemo(() => getProductById(productId), [productId]);
+
+  const handleAddToCart = useCallback((position: { x: number; y: number }) => {
     // Animation is handled by the FlyingImage component
   }, []);
+
+  if (!product) {
+    return null;
+  }
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -28,12 +51,14 @@ export const ProductDetailScreen: React.FC = () => {
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
-        bounces={true}>
+        bounces={true}
+      >
         <ImageCarousel images={product.images} productId={product.id} />
 
         <View style={styles.content}>
           <Animated.View
-            entering={FadeInUp.delay(100).duration(400).springify()}>
+            entering={FadeInUp.delay(100).duration(400).springify()}
+          >
             <View style={styles.categoryRow}>
               <View style={styles.categoryBadge}>
                 <Text style={styles.categoryText}>{product.category}</Text>
@@ -48,31 +73,37 @@ export const ProductDetailScreen: React.FC = () => {
 
           <Animated.Text
             style={styles.name}
-            entering={FadeInUp.delay(150).duration(400).springify()}>
+            entering={FadeInUp.delay(150).duration(400).springify()}
+          >
             {product.name}
           </Animated.Text>
 
           <Animated.Text
             style={styles.price}
-            entering={FadeInUp.delay(200).duration(400).springify()}>
+            entering={FadeInUp.delay(200).duration(400).springify()}
+          >
             ${product.price.toFixed(2)}
           </Animated.Text>
 
           <Animated.View
-            entering={FadeInUp.delay(250).duration(400).springify()}>
+            entering={FadeInUp.delay(250).duration(400).springify()}
+          >
             <Text style={styles.sectionTitle}>Description</Text>
             <Text style={styles.description}>{product.description}</Text>
           </Animated.View>
 
           <Animated.View
             style={styles.features}
-            entering={SlideInRight.delay(300).duration(400).springify()}>
+            entering={SlideInRight.delay(300).duration(400).springify()}
+          >
             <Text style={styles.sectionTitle}>Features</Text>
             <View style={styles.featureList}>
-              <FeatureItem icon="✓" text="Premium Quality Materials" />
-              <FeatureItem icon="✓" text="Free Shipping Worldwide" />
-              <FeatureItem icon="✓" text="30-Day Return Policy" />
-              <FeatureItem icon="✓" text="1 Year Warranty" />
+              {product?.features?.map((feature, index) => (
+                <FeatureItem
+                  key={`${product?.id}-${index}`}
+                  feature={feature}
+                />
+              ))}
             </View>
           </Animated.View>
         </View>
@@ -80,25 +111,14 @@ export const ProductDetailScreen: React.FC = () => {
 
       <Animated.View
         style={styles.footer}
-        entering={FadeInDown.delay(400).duration(400).springify()}>
+        entering={FadeInDown.delay(400).duration(400).springify()}
+      >
         <AddToCartButton product={product} onAddToCart={handleAddToCart} />
       </Animated.View>
       <FlyingImage />
     </SafeAreaView>
   );
 };
-
-interface FeatureItemProps {
-  icon: string;
-  text: string;
-}
-
-const FeatureItem: React.FC<FeatureItemProps> = ({icon, text}) => (
-  <View style={styles.featureItem}>
-    <Text style={styles.featureIcon}>{icon}</Text>
-    <Text style={styles.featureText}>{text}</Text>
-  </View>
-);
 
 const styles = StyleSheet.create({
   container: {
@@ -109,11 +129,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    padding: SPACING.lg,
+    paddingTop: SPACING.lg,
+    paddingHorizontal: SPACING.lg,
+    paddingBottom: SPACING.lg,
     backgroundColor: COLORS.surface,
     borderTopLeftRadius: BORDER_RADIUS.xl,
     borderTopRightRadius: BORDER_RADIUS.xl,
     marginTop: -SPACING.lg,
+    minHeight: 100,
+    zIndex: 10000,
+    elevation: 10000,
+    position: 'relative',
   },
   categoryRow: {
     flexDirection: 'row',

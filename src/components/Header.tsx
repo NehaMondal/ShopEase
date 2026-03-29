@@ -1,8 +1,8 @@
 import React from 'react';
-import {StyleSheet, Text, View, Pressable} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {CartBadge} from './CartBadge';
-import {COLORS, SPACING, FONT_SIZE} from '../utils/constants';
+import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { CartBadge } from './CartBadge';
+import { COLORS, SPACING, FONT_SIZE } from '../utils/constants';
 
 interface HeaderProps {
   title: string;
@@ -24,7 +24,8 @@ export const Header: React.FC<HeaderProps> = ({
           <Pressable
             onPress={() => navigation.goBack()}
             style={styles.backButton}
-            hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          >
             <Text style={styles.backIcon}>←</Text>
           </Pressable>
         )}

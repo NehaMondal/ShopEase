@@ -1,5 +1,5 @@
-import React, {useCallback} from 'react';
-import {StyleSheet, Text, View, Pressable} from 'react-native';
+import React, { useCallback, useMemo, useRef } from 'react';
+import { StyleSheet, Text, View, Pressable } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -7,7 +7,8 @@ import Animated, {
   interpolate,
   Extrapolation,
 } from 'react-native-reanimated';
-import {Product} from '../types';
+import { getProductById } from '../data/products';
+import { useHeroStore } from '../store/heroStore';
 import {
   COLORS,
   SPACING,
@@ -18,15 +19,18 @@ import {
 } from '../utils/constants';
 
 interface ProductCardProps {
-  product: Product;
-  onPress: (product: Product) => void;
+  productId: string;
+  onPress: (productId: string) => void;
   index: number;
 }
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export const ProductCard: React.FC<ProductCardProps> = React.memo(
-  ({product, onPress, index}) => {
+  ({ productId, onPress, index }) => {
+    const product = useMemo(() => getProductById(productId), [productId]);
+    const imageRef = useRef<View>(null);
+    const setHeroSource = useHeroStore(state => state.setHeroSource);
     const scale = useSharedValue(1);
     const pressed = useSharedValue(0);
 
@@ -41,8 +45,28 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(
     }, [scale, pressed]);
 
     const handlePress = useCallback(() => {
-      onPress(product);
-    }, [onPress, product]);
+      if (imageRef.current && product) {
+        // Wait a frame to ensure accurate measurement after press animation
+        requestAnimationFrame(() => {
+          if (imageRef.current) {
+            imageRef.current.measureInWindow((x, y, width, height) => {
+              setHeroSource(
+                productId,
+                { x, y, width, height },
+                product.images[0],
+              );
+              onPress(productId);
+            });
+          }
+        });
+      } else {
+        onPress(productId);
+      }
+    }, [onPress, productId, product, setHeroSource]);
+
+    if (!product) {
+      return null;
+    }
 
     const animatedContainerStyle = useAnimatedStyle(() => {
       const shadowOpacity = interpolate(
@@ -52,7 +76,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(
         Extrapolation.CLAMP,
       );
       return {
-        transform: [{scale: scale.value}],
+        transform: [{ scale: scale.value }],
         shadowOpacity,
       };
     });
@@ -65,7 +89,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(
         Extrapolation.CLAMP,
       );
       return {
-        transform: [{scale: imageScale}],
+        transform: [{ scale: imageScale }],
       };
     });
 
@@ -74,13 +98,13 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
         onPress={handlePress}
-        style={[styles.container, animatedContainerStyle]}>
-        <View style={styles.imageContainer}>
+        style={[styles.container, animatedContainerStyle]}
+      >
+        <View ref={imageRef} style={styles.imageContainer} collapsable={false}>
           <Animated.Image
-            source={{uri: product.images[0]}}
+            source={{ uri: product?.images[0] }}
             style={[styles.image, animatedImageStyle]}
             resizeMode="cover"
-            sharedTransitionTag={`product-image-${product.id}`}
           />
           <View style={styles.categoryBadge}>
             <Text style={styles.categoryText}>{product.category}</Text>
@@ -109,7 +133,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.lg,
     marginBottom: SPACING.md,
     shadowColor: COLORS.primary,
-    shadowOffset: {width: 0, height: 4},
+    shadowOffset: { width: 0, height: 4 },
     shadowRadius: 12,
     elevation: 5,
     overflow: 'hidden',
@@ -147,6 +171,7 @@ const styles = StyleSheet.create({
     color: COLORS.text,
     marginBottom: SPACING.xs,
     lineHeight: 20,
+    height: 40,
   },
   ratingRow: {
     flexDirection: 'row',

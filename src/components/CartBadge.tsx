@@ -1,13 +1,19 @@
-import React, {useEffect} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
   withSequence,
 } from 'react-native-reanimated';
-import {useStore} from '../store/useStore';
-import {COLORS, SPACING, FONT_SIZE, BORDER_RADIUS, ANIMATION_CONFIG} from '../utils/constants';
+import { useStore } from '../store/useStore';
+import {
+  COLORS,
+  SPACING,
+  FONT_SIZE,
+  BORDER_RADIUS,
+  ANIMATION_CONFIG,
+} from '../utils/constants';
 
 export const CartBadge: React.FC = () => {
   const cartItemCount = useStore(state => state.getCartItemCount());
@@ -25,7 +31,7 @@ export const CartBadge: React.FC = () => {
   }, [cartItemCount, scale, previousCount]);
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{scale: scale.value}],
+    transform: [{ scale: scale.value }],
   }));
 
   if (cartItemCount === 0) {

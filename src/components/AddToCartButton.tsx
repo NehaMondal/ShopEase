@@ -1,5 +1,5 @@
-import React, {useCallback, useRef} from 'react';
-import {StyleSheet, Text, Pressable, View} from 'react-native';
+import React, { useCallback, useRef } from 'react';
+import { StyleSheet, Text, Pressable, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -7,8 +7,8 @@ import Animated, {
   withSequence,
   interpolateColor,
 } from 'react-native-reanimated';
-import {Product} from '../types';
-import {useStore} from '../store/useStore';
+import { Product } from '../types';
+import { useStore } from '../store/useStore';
 import {
   COLORS,
   SPACING,
@@ -19,7 +19,7 @@ import {
 
 interface AddToCartButtonProps {
   product: Product;
-  onAddToCart?: (position: {x: number; y: number}) => void;
+  onAddToCart?: (position: { x: number; y: number }) => void;
 }
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -58,8 +58,8 @@ export const AddToCartButton: React.FC<AddToCartButtonProps> = ({
       buttonRef.current.measure((x, y, width, height, pageX, pageY) => {
         const centerX = pageX + width / 2;
         const centerY = pageY + height / 2;
-        setFlyingImage(product, {x: centerX, y: centerY});
-        onAddToCart?.({x: centerX, y: centerY});
+        setFlyingImage(product, { x: centerX, y: centerY });
+        onAddToCart?.({ x: centerX, y: centerY });
       });
     }
   }, [scale, addToCart, product, setFlyingImage, onAddToCart]);
@@ -72,7 +72,7 @@ export const AddToCartButton: React.FC<AddToCartButtonProps> = ({
     );
 
     return {
-      transform: [{scale: scale.value}],
+      transform: [{ scale: scale.value }],
       backgroundColor,
     };
   });
@@ -83,7 +83,8 @@ export const AddToCartButton: React.FC<AddToCartButtonProps> = ({
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
         onPress={handlePress}
-        style={[styles.button, animatedStyle]}>
+        style={[styles.button, animatedStyle]}
+      >
         <Text style={styles.buttonText}>Add to Cart</Text>
         <Text style={styles.priceText}>${product.price.toFixed(2)}</Text>
       </AnimatedPressable>
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.lg,
     borderRadius: BORDER_RADIUS.lg,
     shadowColor: COLORS.accent,
-    shadowOffset: {width: 0, height: 4},
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 5,

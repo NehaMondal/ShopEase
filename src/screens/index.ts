@@ -1,2 +1,2 @@
-export {GalleryScreen} from './GalleryScreen';
-export {ProductDetailScreen} from './ProductDetailScreen';
+export { GalleryScreen } from './GalleryScreen';
+export { ProductDetailScreen } from './ProductDetailScreen';

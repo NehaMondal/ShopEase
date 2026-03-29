@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {StyleSheet, Dimensions, Image} from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, Dimensions, Image } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -8,10 +8,10 @@ import Animated, {
   runOnJS,
   Easing,
 } from 'react-native-reanimated';
-import {useStore} from '../store/useStore';
-import {COLORS, BORDER_RADIUS} from '../utils/constants';
+import { useStore } from '../store/useStore';
+import { COLORS, BORDER_RADIUS } from '../utils/constants';
 
-const {width: SCREEN_WIDTH} = Dimensions.get('window');
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 const CART_ICON_POSITION = {
   x: SCREEN_WIDTH - 50,
@@ -44,29 +44,29 @@ export const FlyingImage: React.FC = () => {
       const targetY = CART_ICON_POSITION.y - FLYING_IMAGE_SIZE / 2;
 
       translateX.value = withTiming(targetX, {
-        duration: 600,
+        duration: 1000,
         easing: Easing.bezier(0.25, 0.1, 0.25, 1),
       });
 
       translateY.value = withTiming(targetY, {
-        duration: 600,
+        duration: 1000,
         easing: Easing.bezier(0.25, 0.1, 0.25, 1),
       });
 
       scale.value = withTiming(0.3, {
-        duration: 600,
+        duration: 1000,
         easing: Easing.bezier(0.25, 0.1, 0.25, 1),
       });
 
       rotation.value = withTiming(360, {
-        duration: 600,
+        duration: 1000,
         easing: Easing.linear,
       });
 
       opacity.value = withTiming(
         0,
         {
-          duration: 600,
+          duration: 1000,
           easing: Easing.bezier(0.25, 0.1, 0.25, 1),
         },
         finished => {
@@ -91,10 +91,10 @@ export const FlyingImage: React.FC = () => {
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [
-      {translateX: translateX.value},
-      {translateY: translateY.value},
-      {scale: scale.value},
-      {rotate: `${rotation.value}deg`},
+      { translateX: translateX.value },
+      { translateY: translateY.value },
+      { scale: scale.value },
+      { rotate: `${rotation.value}deg` },
     ],
     opacity: opacity.value,
   }));
@@ -106,7 +106,7 @@ export const FlyingImage: React.FC = () => {
   return (
     <Animated.View style={[styles.container, animatedStyle]}>
       <Image
-        source={{uri: flyingProduct.images[0]}}
+        source={{ uri: flyingProduct.images[0] }}
         style={styles.image}
         resizeMode="cover"
       />
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     zIndex: 1000,
     elevation: 1000,
     shadowColor: COLORS.primary,
-    shadowOffset: {width: 0, height: 4},
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
   },
