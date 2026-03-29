@@ -106,15 +106,11 @@ All animations run on the native UI thread via Reanimated, keeping the JS thread
 
 1. **Hero Animation**: Custom implementation using manual position measurement and Reanimated worklets. Replaced `sharedTransitionTag` due to reliability issues on physical devices. Current implementation provides consistent 60 FPS performance across all tested devices.
 
-2. **Flying Image Animation**: Uses absolute positioning which may have edge cases on devices with notches. Mitigated by using SafeAreaContext. Simplified from original design (removed rotation) for better performance and cleaner code.
+2. **Flying Image Animation**: Uses absolute positioning which may have edge cases on devices with notches.
 
 3. **Image Caching**: Implemented using `react-native-fast-image` for disk and memory caching. Note: FastImage doesn't support animated styles directly, so images are wrapped in `Animated.View` for carousel animations.
 
 4. **Cart Persistence**: State is in-memory only. For production, integrate with AsyncStorage or backend.
-
-5. **Product Data**: Uses Map-based O(1) lookup for optimal performance when fetching products by ID.
-
-6. **Animation Simplification**: Removed complex animations (staggered entry, color interpolation, rotation effects) in favor of simple `withSpring` defaults for better maintainability and performance. This trade-off prioritizes code clarity and consistent 60 FPS over visual complexity.
 
 ## Getting Started
 
