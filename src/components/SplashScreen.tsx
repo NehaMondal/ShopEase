@@ -4,8 +4,8 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
+  withDelay,
   Easing,
-  runOnJS,
 } from 'react-native-reanimated';
 import { LoadingShimmer } from './LoadingShimmer';
 import { COLORS, FONT_SIZE } from '../utils/constants';
@@ -18,20 +18,17 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
   const opacity = useSharedValue(1);
 
   useEffect(() => {
+    opacity.value = withDelay(
+      1500,
+      withTiming(0, {
+        duration: 300,
+        easing: Easing.out(Easing.ease),
+      }),
+    );
+
     const timer = setTimeout(() => {
-      opacity.value = withTiming(
-        0,
-        {
-          duration: 300,
-          easing: Easing.out(Easing.ease),
-        },
-        finished => {
-          if (finished) {
-            runOnJS(onFinish)();
-          }
-        },
-      );
-    }, 1500);
+      onFinish();
+    }, 1800);
 
     return () => clearTimeout(timer);
   }, [opacity, onFinish]);

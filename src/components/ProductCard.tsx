@@ -1,11 +1,9 @@
 import React, { useCallback, useMemo, useRef } from 'react';
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Pressable, Image } from 'react-native';
 import Animated, {
-  useAnimatedStyle,
   useSharedValue,
+  useAnimatedStyle,
   withSpring,
-  interpolate,
-  Extrapolation,
 } from 'react-native-reanimated';
 import { getProductById } from '../data/products';
 import { useHeroStore } from '../store/heroStore';
@@ -15,7 +13,6 @@ import {
   FONT_SIZE,
   BORDER_RADIUS,
   GRID_CONFIG,
-  ANIMATION_CONFIG,
 } from '../utils/constants';
 
 interface ProductCardProps {
@@ -32,78 +29,45 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(
     const imageRef = useRef<View>(null);
     const setHeroSource = useHeroStore(state => state.setHeroSource);
     const scale = useSharedValue(1);
-    const pressed = useSharedValue(0);
 
-    const handlePressIn = useCallback(() => {
-      scale.value = withSpring(0.96, ANIMATION_CONFIG.springFast);
-      pressed.value = withSpring(1, ANIMATION_CONFIG.springFast);
-    }, [scale, pressed]);
+    const handlePressIn = () => {
+      scale.value = withSpring(0.96);
+    };
 
-    const handlePressOut = useCallback(() => {
-      scale.value = withSpring(1, ANIMATION_CONFIG.springFast);
-      pressed.value = withSpring(0, ANIMATION_CONFIG.springFast);
-    }, [scale, pressed]);
+    const handlePressOut = () => {
+      scale.value = withSpring(1);
+    };
 
     const handlePress = useCallback(() => {
       if (imageRef.current && product) {
-        // Wait a frame to ensure accurate measurement after press animation
-        requestAnimationFrame(() => {
-          if (imageRef.current) {
-            imageRef.current.measureInWindow((x, y, width, height) => {
-              setHeroSource(
-                productId,
-                { x, y, width, height },
-                product.images[0],
-              );
-              onPress(productId);
-            });
-          }
+        imageRef.current.measureInWindow((x, y, width, height) => {
+          setHeroSource(productId, { x, y, width, height }, product.images[0]);
+          onPress(productId);
         });
       } else {
         onPress(productId);
       }
     }, [onPress, productId, product, setHeroSource]);
 
+    const animatedStyle = useAnimatedStyle(() => ({
+      transform: [{ scale: scale.value }],
+    }));
+
     if (!product) {
       return null;
     }
-
-    const animatedContainerStyle = useAnimatedStyle(() => {
-      const shadowOpacity = interpolate(
-        pressed.value,
-        [0, 1],
-        [0.1, 0.2],
-        Extrapolation.CLAMP,
-      );
-      return {
-        transform: [{ scale: scale.value }],
-        shadowOpacity,
-      };
-    });
-
-    const animatedImageStyle = useAnimatedStyle(() => {
-      const imageScale = interpolate(
-        pressed.value,
-        [0, 1],
-        [1, 1.05],
-        Extrapolation.CLAMP,
-      );
-      return {
-        transform: [{ scale: imageScale }],
-      };
-    });
 
     return (
       <AnimatedPressable
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
         onPress={handlePress}
-        style={[styles.container, animatedContainerStyle]}
+        style={[styles.container, animatedStyle]}
       >
         <View ref={imageRef} style={styles.imageContainer} collapsable={false}>
-          <Animated.Image
+          <Image
             source={{ uri: product?.images[0] }}
-            style={[styles.image, animatedImageStyle]}
+            style={styles.image}
             resizeMode="cover"
           />
           <View style={styles.categoryBadge}>
@@ -119,7 +83,7 @@ export const ProductCard: React.FC<ProductCardProps> = React.memo(
             <Text style={styles.rating}>{product.rating}</Text>
             <Text style={styles.reviews}>({product.reviews})</Text>
           </View>
-          <Text style={styles.price}>${product.price.toFixed(2)}</Text>
+          <Text style={styles.price}>₹{product.price.toLocaleString('en-IN')}</Text>
         </View>
       </AnimatedPressable>
     );

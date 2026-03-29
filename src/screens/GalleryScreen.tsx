@@ -1,10 +1,9 @@
 import React, { useCallback } from 'react';
-import { StyleSheet, View, FlatList, StatusBar } from 'react-native';
+import { StyleSheet, FlatList, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import Animated, { FadeInDown } from 'react-native-reanimated';
-import { ProductCard, Header, FlyingImage } from '../components';
+import { ProductCard, Header } from '../components';
 import { products } from '../data/products';
 import { Product, RootStackParamList } from '../types';
 import { COLORS, SPACING, GRID_CONFIG } from '../utils/constants';
@@ -24,9 +23,6 @@ const getItemLayout = (_: unknown, index: number) => ({
 
 const keyExtractor = (item: Product) => item.id;
 
-const ListHeader = () => <View style={styles.listHeader} />;
-const ListFooter = () => <View style={styles.listFooter} />;
-
 export const GalleryScreen: React.FC = () => {
   const navigation = useNavigation<GalleryNavigationProp>();
 
@@ -39,17 +35,11 @@ export const GalleryScreen: React.FC = () => {
 
   const renderItem = useCallback(
     ({ item, index }: { item: Product; index: number }) => (
-      <Animated.View
-        entering={FadeInDown.delay(index * 50)
-          .duration(400)
-          .springify()}
-      >
-        <ProductCard
-          productId={item.id}
-          onPress={handleProductPress}
-          index={index}
-        />
-      </Animated.View>
+      <ProductCard
+        productId={item.id}
+        onPress={handleProductPress}
+        index={index}
+      />
     ),
     [handleProductPress],
   );
@@ -66,11 +56,8 @@ export const GalleryScreen: React.FC = () => {
         contentContainerStyle={styles.listContent}
         columnWrapperStyle={styles.columnWrapper}
         showsVerticalScrollIndicator={false}
-        ListHeaderComponent={ListHeader}
-        ListFooterComponent={ListFooter}
         getItemLayout={getItemLayout}
       />
-      <FlyingImage />
     </SafeAreaView>
   );
 };
@@ -82,6 +69,7 @@ const styles = StyleSheet.create({
   },
   listContent: {
     paddingHorizontal: SPACING.md,
+    paddingVertical: SPACING.md,
   },
   columnWrapper: {
     justifyContent: 'space-between',

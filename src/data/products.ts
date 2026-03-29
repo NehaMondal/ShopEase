@@ -4,7 +4,7 @@ const productsArray: Product[] = [
   {
     id: '1',
     name: 'Premium Leather Jacket',
-    price: 299.99,
+    price: 24999,
     category: 'Clothing',
     description:
       'Crafted from genuine Italian leather, this premium jacket features a timeless design with modern details. Perfect for any occasion, from casual outings to evening events.',
@@ -26,7 +26,7 @@ const productsArray: Product[] = [
   {
     id: '2',
     name: 'Wireless Noise-Canceling Headphones',
-    price: 349.99,
+    price: 28999,
     category: 'Electronics',
     description:
       'Experience pure audio bliss with industry-leading noise cancellation. 30-hour battery life, premium comfort, and crystal-clear sound quality.',
@@ -48,7 +48,7 @@ const productsArray: Product[] = [
   {
     id: '3',
     name: 'Minimalist Watch',
-    price: 189.99,
+    price: 15799,
     category: 'Accessories',
     description:
       'A stunning timepiece that combines Swiss precision with Scandinavian design. Sapphire crystal glass and genuine leather strap.',
@@ -70,7 +70,7 @@ const productsArray: Product[] = [
   {
     id: '4',
     name: 'Designer Sunglasses',
-    price: 159.99,
+    price: 13299,
     category: 'Accessories',
     description:
       'UV400 protection meets Italian craftsmanship. Lightweight titanium frame with polarized lenses for ultimate clarity.',
@@ -92,7 +92,7 @@ const productsArray: Product[] = [
   {
     id: '5',
     name: 'Running Sneakers Pro',
-    price: 179.99,
+    price: 14999,
     category: 'Footwear',
     description:
       'Engineered for performance with responsive cushioning and breathable mesh upper. Perfect for marathons or daily runs.',
@@ -114,7 +114,7 @@ const productsArray: Product[] = [
   {
     id: '6',
     name: 'Smart Fitness Tracker',
-    price: 129.99,
+    price: 10799,
     category: 'Electronics',
     description:
       'Track your health 24/7 with heart rate monitoring, sleep analysis, and GPS. Water-resistant up to 50 meters.',
@@ -136,7 +136,7 @@ const productsArray: Product[] = [
   {
     id: '7',
     name: 'Canvas Backpack',
-    price: 89.99,
+    price: 7499,
     category: 'Bags',
     description:
       'Vintage-inspired design meets modern functionality. Padded laptop compartment, water-resistant canvas, and genuine leather accents.',
@@ -158,7 +158,7 @@ const productsArray: Product[] = [
   {
     id: '8',
     name: 'Ceramic Coffee Set',
-    price: 69.99,
+    price: 5799,
     category: 'Home',
     description:
       'Handcrafted ceramic pour-over set includes dripper, carafe, and two cups. Minimalist Japanese-inspired design.',
@@ -180,7 +180,7 @@ const productsArray: Product[] = [
   {
     id: '9',
     name: 'Wireless Charging Pad',
-    price: 49.99,
+    price: 4199,
     category: 'Electronics',
     description:
       'Fast wireless charging for all Qi-enabled devices. Sleek aluminum design with LED indicator and foreign object detection.',
@@ -202,7 +202,7 @@ const productsArray: Product[] = [
   {
     id: '10',
     name: 'Cashmere Sweater',
-    price: 249.99,
+    price: 20799,
     category: 'Clothing',
     description:
       'Pure Mongolian cashmere in a classic crew neck design. Exceptionally soft, lightweight, and warm for all-day comfort.',
@@ -224,7 +224,7 @@ const productsArray: Product[] = [
   {
     id: '11',
     name: 'Portable Bluetooth Speaker',
-    price: 79.99,
+    price: 6649,
     category: 'Electronics',
     description:
       '360° immersive sound with deep bass. IPX7 waterproof rating, 24-hour playtime, and built-in microphone for calls.',
@@ -246,7 +246,7 @@ const productsArray: Product[] = [
   {
     id: '12',
     name: 'Yoga Mat Premium',
-    price: 59.99,
+    price: 4999,
     category: 'Fitness',
     description:
       'Eco-friendly natural rubber with superior grip. Extra thick 6mm cushioning for joint protection. Includes carrying strap.',
@@ -268,7 +268,7 @@ const productsArray: Product[] = [
   {
     id: '13',
     name: 'Mechanical Keyboard',
-    price: 149.99,
+    price: 12499,
     category: 'Electronics',
     description:
       'Cherry MX switches with per-key RGB lighting. Aircraft-grade aluminum frame with detachable USB-C cable.',
@@ -290,7 +290,7 @@ const productsArray: Product[] = [
   {
     id: '14',
     name: 'Leather Wallet',
-    price: 79.99,
+    price: 6649,
     category: 'Accessories',
     description:
       'Full-grain leather bifold wallet with RFID blocking. Slim profile with 8 card slots and bill compartment.',
@@ -312,7 +312,7 @@ const productsArray: Product[] = [
   {
     id: '15',
     name: 'Plant Pot Set',
-    price: 44.99,
+    price: 3749,
     category: 'Home',
     description:
       'Set of 3 geometric concrete planters with bamboo saucers. Perfect for succulents and small plants. Drainage holes included.',
@@ -333,15 +333,12 @@ const productsArray: Product[] = [
   },
 ];
 
-// Create a Map for O(1) lookup performance
 const productsMap = new Map<string, Product>(
   productsArray.map(product => [product.id, product]),
 );
 
-// Export the array for iteration (e.g., in FlatList)
 export const products = productsArray;
 
-// Optimized O(1) lookup by ID
 export const getProductById = (id: string): Product | undefined => {
   return productsMap.get(id);
 };

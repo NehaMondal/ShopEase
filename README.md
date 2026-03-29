@@ -1,6 +1,6 @@
 # ShopEase - E-Commerce Product Gallery
 
-A highly polished, performant React Native e-commerce application showcasing premium UI transitions, smooth animations, and optimized user experience.
+A performant React Native e-commerce application with smooth animations and optimized user experience. Prices displayed in Indian Rupees (₹).
 
 ## Technical Stack
 
@@ -20,9 +20,8 @@ A highly polished, performant React Native e-commerce application showcasing pre
 
 ### Product Gallery (List Screen)
 
-- **Performant Grid Layout**: FlatList with optimized rendering (`removeClippedSubviews`, `maxToRenderPerBatch`, `windowSize`)
-- **Staggered Entry Animations**: Products fade in with spring physics using `FadeInDown`
-- **Interactive Press States**: Scale and shadow animations on touch
+- **Performant Grid Layout**: FlatList with optimized rendering
+- **Simple Press States**: Scale animation on touch using `withSpring`
 - **Custom Hero Animation**: Manual hero transition using Zustand state management and Reanimated worklets
 
 ### Product Detail Screen
@@ -36,13 +35,19 @@ A highly polished, performant React Native e-commerce application showcasing pre
 
 ### Add to Cart Animation
 
-- **Button Feedback**: Scale bounce sequence on press
+- **Button Feedback**: Simple scale animation on press
 - **Flying Image Effect**: Product thumbnail animates from button to cart icon (1000ms duration)
   - Bezier-curved trajectory
   - Scale reduction (1 → 0.3)
   - 360° rotation
   - Opacity fade
 - **Cart Badge Bounce**: Scale pulse animation when item count increases
+
+### Splash Screen
+
+- **Native Splash**: Light background with app icon (Android)
+- **JS Splash**: Shopping bag icon, app name, and shimmer loading animation
+- **Smooth Transition**: Fades out after 1.5 seconds
 
 ## Architecture
 
@@ -55,9 +60,11 @@ src/
 │   ├── Header.tsx
 │   ├── HeroImage.tsx      # Custom hero animation overlay
 │   ├── ImageCarousel.tsx
-│   └── ProductCard.tsx
+│   ├── LoadingShimmer.tsx # Shimmer animation for splash
+│   ├── ProductCard.tsx
+│   └── SplashScreen.tsx   # JS splash screen with shimmer
 ├── data/               # Mock data
-│   └── products.ts
+│   └── products.ts        # Product data with INR prices
 ├── navigation/         # Navigation configuration
 │   └── AppNavigator.tsx
 ├── screens/            # Screen components
@@ -87,14 +94,14 @@ All animations run on the native UI thread via Reanimated, keeping the JS thread
 ### FlatList Tuning
 
 - `getItemLayout` moved outside component to avoid recreation
-- `removeClippedSubviews`, `maxToRenderPerBatch`, `windowSize` configured for memory efficiency
-- Static components (`ListHeader`, `ListFooter`, `keyExtractor`) defined outside render
+- `keyExtractor` defined outside render
+- Simplified rendering without extra wrapper components
 
 ### Component Design
 
 - `React.memo` on list items and carousel images
 - Product data fetched by ID rather than passing full objects through props
-- Animated sub-components isolated to minimize re-render scope
+- Simplified animations using `withSpring` defaults for cleaner code
 
 ## Known Limitations & Trade-offs
 
@@ -134,26 +141,17 @@ npm run ios
 npm run android
 ```
 
-## Design Liaison Brief
+## Design Notes
 
-**To**: Lead Product Designer  
-**Subject**: Animation Implementation Strategy for ShopEase Product Gallery
+### Animation Philosophy
 
-Hi,
+The app uses simplified animations for better maintainability:
 
-I wanted to share my approach to the animation implementation for the product gallery feature. For the hero transition between gallery and detail screens, I have implemented a custom solution using Zustand for state management and Reanimated worklets for UI-thread animations. After testing Reanimated's experimental `sharedTransitionTag` API, we found reliability issues on physical devices, so we built a manual implementation that:
+- **Press animations**: Simple `withSpring(0.95)` / `withSpring(1)` for scale feedback
+- **Hero transition**: Custom implementation using Zustand + Reanimated worklets
+- **Flying image**: 1-second bezier trajectory with rotation and fade
+- **Splash screen**: Native splash + JS shimmer animation
 
-1. Measures the source image position using `measureInWindow` (with `requestAnimationFrame` for accuracy)
-2. Renders an overlay image at the exact source position
-3. Animates position, size, and border radius to the destination (550ms bezier curve)
-4. Delays carousel image appearance (700ms) to prevent flicker
-5. Fades out the overlay once the carousel is visible
+### Currency
 
-This approach provides consistent 60 FPS performance and pixel-perfect positioning across all tested devices. The image carousel implements a parallax depth effect with scale interpolation (0.85x for adjacent images) and subtle horizontal translation, creating visual depth without impacting scroll performance.
-
-For the "Add to Cart" interaction, I have implemented a multi-stage animation: the button performs a spring-based scale bounce, while a miniature product image flies toward the cart icon using a 1-second bezier-eased trajectory with rotation and fade. The cart badge then responds with its own bounce animation. All timing functions use spring physics with carefully tuned damping (15-20) and stiffness (150-300) values to feel responsive yet natural.
-
-One trade-off worth noting: the original spec suggested a more complex particle burst effect on cart addition, but performance profiling showed frame drops on mid-range Android devices. We opted for the cleaner flying image approach which maintains 60 FPS across all tested devices. The hero animation required careful zIndex management to ensure the content section's rounded corners remain visible above the animating overlay.
-
-Best regards,  
-Engineering Team
+All prices are displayed in Indian Rupees (₹) with locale formatting (`toLocaleString('en-IN')`).

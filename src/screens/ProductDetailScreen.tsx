@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo } from 'react';
-import { StyleSheet, Text, View, ScrollView, StatusBar } from 'react-native';
+import React, { useMemo } from 'react';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import Animated, {
@@ -36,17 +36,12 @@ export const ProductDetailScreen: React.FC = () => {
 
   const product = useMemo(() => getProductById(productId), [productId]);
 
-  const handleAddToCart = useCallback((position: { x: number; y: number }) => {
-    // Animation is handled by the FlyingImage component
-  }, []);
-
   if (!product) {
     return null;
   }
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <StatusBar barStyle="dark-content" backgroundColor={COLORS.surface} />
       <Header title={product.name} showBack showCart />
       <ScrollView
         style={styles.scrollView}
@@ -82,7 +77,7 @@ export const ProductDetailScreen: React.FC = () => {
             style={styles.price}
             entering={FadeInUp.delay(200).duration(400).springify()}
           >
-            ${product.price.toFixed(2)}
+            ₹{product.price.toLocaleString('en-IN')}
           </Animated.Text>
 
           <Animated.View
@@ -113,7 +108,7 @@ export const ProductDetailScreen: React.FC = () => {
         style={styles.footer}
         entering={FadeInDown.delay(400).duration(400).springify()}
       >
-        <AddToCartButton product={product} onAddToCart={handleAddToCart} />
+        <AddToCartButton product={product} />
       </Animated.View>
       <FlyingImage />
     </SafeAreaView>
@@ -133,13 +128,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.lg,
     paddingBottom: SPACING.lg,
     backgroundColor: COLORS.surface,
-    borderTopLeftRadius: BORDER_RADIUS.xl,
-    borderTopRightRadius: BORDER_RADIUS.xl,
     marginTop: -SPACING.lg,
-    minHeight: 100,
-    zIndex: 10000,
-    elevation: 10000,
-    position: 'relative',
   },
   categoryRow: {
     flexDirection: 'row',
