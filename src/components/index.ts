@@ -6,4 +6,3 @@ export { AddToCartButton } from './AddToCartButton';
 export { Header } from './Header';
 export { HeroImage } from './HeroImage';
 export { SplashScreen } from './SplashScreen';
-export { LoadingShimmer } from './LoadingShimmer';

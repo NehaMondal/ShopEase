@@ -37,7 +37,7 @@ export const AddToCartButton: React.FC<AddToCartButtonProps> = ({ product }) => 
   const handlePress = () => {
     addToCart(product);
     if (buttonRef.current) {
-      buttonRef.current.measure((x, y, width, height, pageX, pageY) => {
+      buttonRef.current.measure((_, __, width, height, pageX, pageY) => {
         const centerX = pageX + width / 2;
         const centerY = pageY + height / 2;
         setFlyingImage(product, { x: centerX, y: centerY });

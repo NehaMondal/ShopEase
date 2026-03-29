@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -7,7 +7,6 @@ import Animated, {
   withDelay,
   Easing,
 } from 'react-native-reanimated';
-import { LoadingShimmer } from './LoadingShimmer';
 import { COLORS, FONT_SIZE } from '../utils/constants';
 
 interface SplashScreenProps {
@@ -44,7 +43,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
           <Text style={styles.iconText}>🛍️</Text>
         </View>
         <Text style={styles.appName}>ShopEase</Text>
-        <LoadingShimmer />
+        <ActivityIndicator size="large" color={COLORS.primary} />
       </View>
     </Animated.View>
   );

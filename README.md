@@ -60,7 +60,6 @@ src/
 │   ├── Header.tsx
 │   ├── HeroImage.tsx      # Custom hero animation overlay
 │   ├── ImageCarousel.tsx
-│   ├── LoadingShimmer.tsx # Shimmer animation for splash
 │   ├── ProductCard.tsx
 │   └── SplashScreen.tsx   # JS splash screen with shimmer
 ├── data/               # Mock data
